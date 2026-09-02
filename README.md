@@ -48,4 +48,14 @@ The project uses Vinext, React, Cloudflare Workers, D1, and Drizzle ORM. The ini
 
 ## Companion mod
 
-The mod source and compiled DLL are maintained alongside this web project. Step count is estimated from travelled distance using a configurable stride length (0.75 metres by default).
+The repository includes the BepInEx mod source under `mod/src/`. Build it, copy `BigWalkTelemetry.dll` into the game's `BepInEx/plugins/BigWalkTelemetry/` directory, launch the game once, then set `TelemetryEndpoint` in `BepInEx/config/BigWalkTelemetry.cfg` to the deployed site's `/api/telemetry` URL.
+
+Step count is estimated from travelled distance using a configurable stride length (0.75 metres by default).
+
+To compile the mod yourself, supply the Big Walk installation directory:
+
+```powershell
+dotnet build mod/src/BigWalkTelemetry.csproj -p:BigWalkDir="C:\path\to\Big Walk"
+```
+
+Alternatively, set the `BIG_WALK_DIR` environment variable before building.
