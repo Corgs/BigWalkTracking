@@ -16,7 +16,7 @@ public sealed class TelemetryBehaviour : MonoBehaviour
 {
     private static readonly Regex PlatformKey = new(@"^(\d{17})(.*)$", RegexOptions.Compiled);
     private static readonly Regex PlatformId = new(@"\d{17}", RegexOptions.Compiled);
-    private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, IncludeFields = true };
     private readonly string _sessionId = Guid.NewGuid().ToString("N");
     private readonly Dictionary<string, SaveStamp> _saveStamps = new(StringComparer.OrdinalIgnoreCase);
     private static readonly HttpClient Http = new();
@@ -242,3 +242,4 @@ public sealed class TelemetryBehaviour : MonoBehaviour
         public double x; public double y; public double z; public double walkingDistanceMetres; public long steps; public double elevationGainMetres; public long movingSeconds; public bool teleport; public bool ended;
     }
 }
+
