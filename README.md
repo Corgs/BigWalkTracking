@@ -26,3 +26,16 @@ name recorded when they were created; the change applies to new sessions after t
 updated DLL is installed.
 
 Run `build.ps1` to rebuild. This mod does not send data over the network or alter saves.
+
+## Landmark calibration checks
+
+Supply your own screenshot crop instead of a machine-specific temporary path:
+
+```sh
+python tools/check_northwest_anchor.py /path/to/northwest-crop.png --map /path/to/big-walk-map.png
+python tools/check_west_anchor.py /path/to/west-crop.png --map /path/to/big-walk-map.png
+```
+
+These scripts require OpenCV and NumPy. If `--map` is omitted, they look for
+`web/public/big-walk-map.png`; the current repository contains only a Git reference
+for `web`, so use `--map` when that source is unavailable.

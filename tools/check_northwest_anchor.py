@@ -1,12 +1,23 @@
 """Read-only screenshot registration and comparison of calibration models."""
+import argparse
 import json
 from pathlib import Path
 import cv2
 import numpy as np
 
 root = Path(__file__).resolve().parents[1]
-crop = cv2.imread('C:/Users/Corgs/AppData/Local/Temp/codex-clipboard-ca862e49-d331-4514-bf3b-6b07a9de3a89.png')
-base = cv2.imread(str(root / 'web/public/big-walk-map.png'))
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('crop', type=Path, help='Path to the landmark screenshot crop')
+parser.add_argument('--map', dest='map_path', type=Path,
+                    default=root / 'web/public/big-walk-map.png',
+                    help='Path to the base map image')
+args = parser.parse_args()
+crop = cv2.imread(str(args.crop.expanduser()))
+if crop is None:
+    parser.error(f'Could not read crop image: {args.crop}')
+base = cv2.imread(str(args.map_path.expanduser()))
+if base is None:
+    parser.error(f'Could not read base map image: {args.map_path}; supply --map PATH')
 sift = cv2.SIFT_create(nfeatures=15000, contrastThreshold=.01)
 k1, d1 = sift.detectAndCompute(cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY), None)
 k2, d2 = sift.detectAndCompute(cv2.cvtColor(base, cv2.COLOR_BGR2GRAY), None)
